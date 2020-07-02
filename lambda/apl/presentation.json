@@ -1,0 +1,246 @@
+{
+                        "type": "APL",
+						"version": "1.0",
+						"theme": "auto",
+						"import": [
+							{
+								"name": "alexa-layouts",
+								"version": "1.0.0"
+							}
+						],
+						"layouts": {},
+						"resources": [
+							{
+								"description": "Common margins and padding",
+								"dimensions": {
+									"slideMarginTop": "3vw",
+									"slideMarginLeft": "12vw",
+									"slideMarginRight": "12vw",
+									"slideMarginBottom": "3vw"
+								}
+							},
+							{
+								"description": "Margins for Spot",
+								"when": "${viewport.shape == 'round'}",
+								"dimensions": {
+									"slideMarginTop": 0,
+									"slideMarginBottom": 0,
+									"slideMarginLeft": "15vw",
+									"slideMarginRight": "15vw"
+								}
+							}
+						],
+						"styles": {
+							"bodyTextStyle": {
+								"extend": [
+									"textStyleDisplay4"
+								],
+								"description": "Text styles for primary body copy",
+								"values": [
+									{
+										"fontWeight": "200",
+										"textAlign": "center",
+										"paddingTop": "@slideMarginTop",
+										"paddingBottom": "@slideMarginBottom",
+										"paddingLeft": "@slideMarginLeft",
+										"paddingRight": "@slideMarginRight"
+									},
+									{
+										"description": "Additional Y-axis padding for text on round devices",
+										"when": "${viewport.shape == 'round'}",
+										"paddingTop": "15vw",
+										"paddingBottom": "15vw"
+									}
+								]
+							}
+						},
+						"mainTemplate": {
+							"parameters": [
+								"payload"
+							],
+							"item": {
+								"type": "Container",
+								"id": "slideshowContainer",
+								"item": {
+									"type": "Pager",
+									"id": "slideshow",
+									"numbered": true,
+									"height": "100%",
+									"width": "100%",
+									"data": "${payload.card.properties.slides}",
+									"item": [
+										{
+											"type": "Container",
+											"direction": "row",
+											"id": "slideContainer",
+											"shrink": 0,
+											"width": "100%",
+											"height": "100%",
+											"alignItems": "center",
+											"items": [
+												{
+													"type": "Image",
+													"source": "${data.backgroundImage}",
+													"position": "absolute",
+													"overlayColor": "${data.overlayColor}",
+													"width": "100%",
+													"height": "100%",
+													"align": "center",
+													"scale": "best-fill"
+												},
+												{
+													"type": "Text",
+													"id": "${data.id}",
+													"text": "${data.text}",
+													"speech": "${data.slideSpeech}",
+													"color": "#ffffff",
+													"width": "100%",
+													"style": "bodyTextStyle",
+													"textAlign": "center"
+												}
+											]
+										}
+									]
+								}
+							}
+						}
+					},
+					"datasources": {
+						"card": {
+							"type": "object",
+							"properties": {
+								"slides": [
+									{
+										"id": "slide0",
+										"backgroundImage": "https://mesquite.s3-us-west-2.amazonaws.com/TREE.jpg",
+										"slideText": "<speak>Tree</speak>"
+									},
+									{
+										"id": "slide1",
+										"backgroundImage": "https://mesquite.s3-us-west-2.amazonaws.com/SAP.jpg",
+										"slideText": "<speak>Sap</speak>"
+									},
+									{
+										"id": "slide2",
+										"backgroundImage": "https://mesquite.s3-us-west-2.amazonaws.com/PODS.jpg",
+										"slideText": "<speak>Pods</speak>"
+									},
+									{
+										"id": "slide3",
+										"backgroundImage": "https://mesquite.s3-us-west-2.amazonaws.com/OPODS.jpg",
+										"slideText": "<speak>Open Pods</speak>"
+									},
+									{
+										"id": "slide4",
+										"backgroundImage": "https://mesquite.s3-us-west-2.amazonaws.com/GPODS.jpg",
+										"slideText": "<speak>Ground Pods</speak>"
+									},
+									{
+									    "id": "slide5",
+									    "backgroundImage": "https://mesquite.s3-us-west-2.amazonaws.com/BRANCH-LEAFS.jpg",
+									    "slideText": "<speak>Branch Leaves</speak>"
+									}
+								]
+							},
+							"transformers": [
+								{
+									"inputPath": "slides[0].slideText",
+									"outputName": "slideSpeech",
+									"transformer": "ssmlToSpeech"
+								},
+								{
+									"inputPath": "slides[1].slideText",
+									"outputName": "slideSpeech",
+									"transformer": "ssmlToSpeech"
+								},
+								{
+									"inputPath": "slides[2].slideText",
+									"outputName": "slideSpeech",
+									"transformer": "ssmlToSpeech"
+								},
+								{
+									"inputPath": "slides[3].slideText",
+									"outputName": "slideSpeech",
+									"transformer": "ssmlToSpeech"
+								},
+								{
+									"inputPath": "slides[4].slideText",
+									"outputName": "slideSpeech",
+									"transformer": "ssmlToSpeech"
+								}
+							]
+						}
+					}
+				},
+				{
+					"type": "Alexa.Presentation.APL.ExecuteCommands",
+					"token": "Card",
+					"commands": [
+						{
+							"content": {
+								"type": "SpeakItem",
+								"componentId": "slide0"
+							}
+						},
+						{
+							"content": {
+								"type": "SetPage",
+								"componentId": "slideshow",
+								"position": "relative",
+								"value": 1,
+								"delay": 1000
+							}
+						},
+						{
+							"content": {
+								"type": "SpeakItem",
+								"componentId": "slide1"
+							}
+						},
+						{
+							"content": {
+								"type": "SetPage",
+								"componentId": "slideshow",
+								"position": "relative",
+								"value": 1,
+								"delay": 1000
+							}
+						},
+						{
+							"content": {
+								"type": "SpeakItem",
+								"componentId": "slide2"
+							}
+						},
+						{
+							"content": {
+								"type": "SetPage",
+								"componentId": "slideshow",
+								"position": "relative",
+								"value": 1,
+								"delay": 1000
+							}
+						},
+						{
+							"content": {
+								"type": "SpeakItem",
+								"componentId": "slide3"
+							}
+						},
+						{
+							"content": {
+								"type": "SetPage",
+								"componentId": "slideshow",
+								"position": "relative",
+								"value": 1,
+								"delay": 1000
+							}
+						},
+						{
+							"content": {
+								"type": "SpeakItem",
+								"componentId": "slide4"
+							}
+						}
+					]
+				}
